@@ -2,11 +2,11 @@
 
 ## What is Chainlink?
 
-Chainlink is a decentralized oracle network with 1,000+ independent nodes providing:
-- Real-time price feeds
-- 99.99% uptime SLA
-- Audited infrastructure
-- Multi-chain support via CCIP
+Chainlink is a decentralized oracle network of independent node operators providing:
+- Real-time price feeds from multiple verified sources
+- High-frequency data updates (heartbeat + deviation triggered)
+- Defense-in-depth security architecture
+- Multi-chain support (Ethereum, Polygon, Arbitrum, Optimism, Avalanche, Base, Linea)
 
 ## Available Services
 
@@ -14,61 +14,74 @@ Chainlink is a decentralized oracle network with 1,000+ independent nodes provid
 Real-time commodity, cryptocurrency, and traditional asset prices.
 
 **Supported Pairs**:
-- `PI/USD`: Pi Network token
-- `XLM/USD`: Stellar Lumens
-- `BTC/USD`: Bitcoin
-- `ETH/USD`: Ethereum
-- `USDC/USD`: USD Coin
+- XLM/USD: Stellar Lumens
+- BTC/USD: Bitcoin
+- ETH/USD: Ethereum
+- USDC/USD: USD Coin
 
-### Verifiable Randomness (VRF)
-Cryptographically secure randomness for gaming and fairness.
+**Note**: PI/USD availability depends on your Triumph Synergy integration configuration. Refer to custom integration documentation for chain-specific availability.
 
-### Keepers (Automation)
+### Verifiable Randomness (VRF v2.5)
+Cryptographically secure randomness for gaming and fairness with subscription and direct funding methods.
+
+### Keepers (Automation v2.1+)
 Automated contract execution:
-- Hourly price updates
+- Condition-based price updates
 - Daily staking rebalancing
 - Event-triggered execution
 - Monthly UBI reporting
+- Redundant operator network ensures execution
 
-### CCIP (Cross-Chain)
-Multi-chain messaging and asset transfers.
+### CCIP (Cross-Chain Interoperability)
+Multi-chain messaging with defense-in-depth security and atomic settlement guarantees.
 
 ## Code Examples
 
+### Import Required Functions
+\\\javascript
+import { 
+  getChainlinkPrice, 
+  getChainlinkPrices,
+  requestChainlinkVRF, 
+  getVRFRandomness,
+  registerKeeperAutomation 
+} from '@triumph-synergy/core';
+\\\
+
 ### Get Price
-```javascript
+\\\javascript
 const piPrice = await getChainlinkPrice('PI/USD');
-console.log(`PI Price: $${piPrice.rate}`);
-```
+console.log(\PI Price: \$\\);
+\\\
 
 ### Batch Prices
-```javascript
-const pairs = ['PI/USD', 'XLM/USD', 'BTC/USD'];
+\\\javascript
+const pairs = ['XLM/USD', 'BTC/USD', 'ETH/USD'];
 const prices = await getChainlinkPrices(pairs);
-```
+\\\
 
 ### VRF Randomness
-```javascript
+\\\javascript
 const requestId = await requestChainlinkVRF('gaming-key', 1);
 const randomNumber = await getVRFRandomness(requestId);
-```
+\\\
 
 ### Setup Automation
-```javascript
+\\\javascript
 await registerKeeperAutomation({
   name: 'Daily Rebalance',
-  contractAddress: '0x...',
+  contractAddress: '0x1234567890abcdef1234567890abcdef12345678',
   interval: 86400
 });
-```
+\\\
 
 ## Security Best Practices
 
 1. **Verify Data Freshness**: Check timestamp before using
-2. **Rate Limiting**: Batch operations when possible
+2. **Error Handling**: Implement try-catch and validate all responses
 3. **Fallback Oracles**: Have secondary feeds ready
-4. **Error Handling**: Implement circuit breakers
-5. **Monitoring**: Track oracle performance
+4. **Input Validation**: Validate amounts, addresses, and asset symbols
+5. **Monitoring**: Track oracle response times and uptime
 
 ## Resources
 - [Chainlink Docs](https://docs.chain.link)
